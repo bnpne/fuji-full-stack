@@ -1,0 +1,105 @@
+@use 'sass:math';
+@import '_variables.scss';
+
+// Breakpoint
+@mixin mobile {
+  @media (max-width: #{$mobile-breakpoint}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$mobile-breakpoint}) {
+    @content;
+  }
+}
+
+@function mobile-vw($pixels, $base-vw: $mobile-width) {
+  @return math.div($pixels * 100vw, $base-vw);
+}
+
+@function mobile-vh($pixels, $base-vh: $mobile-height) {
+  @return math.div($pixels * 100vh, $base-vh);
+}
+
+@function desktop-vw($pixels, $base-vw: $desktop-width) {
+  $context: 1728 * 0.01 * 1px;
+  @return math.div($pixels, $context) * 1vw;
+  @return $pixels;
+}
+
+@function old-vw($pixels, $base-vw: $desktop-width) {
+  @return math.div($pixels * 100vw, $base-vw);
+}
+
+@function desktop-vh($pixels, $base-vh: $desktop-height) {
+  @return math.div($pixels * 100vh, $base-vh);
+}
+
+@function columns($columns) {
+  @return calc(
+    (#{$columns} * var(--layout-column-width)) +
+      ((#{$columns} - 1) * var(--layout-columns-gap))
+  );
+}
+
+@mixin hover {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
+@mixin reduced-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin image-default() {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  vertical-align: top;
+}
+
+@mixin base-font {
+  font-family: sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+
+  font-size: 40px;
+  line-height: 42px;
+
+  @media (min-width: 2200px) {
+    font-size: 2vw;
+    line-height: 2.2vw;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 3vw;
+    line-height: 3.2vw;
+  }
+
+  @include mobile() {
+    font-size: 5vw;
+    line-height: 5.2vw;
+  }
+}
+
+@mixin primary-link() {
+  color: #000;
+  transition: color 250ms ease-out;
+
+  &:hover {
+    color: #7d7d7d;
+  }
+}
+
+@mixin secondary-link() {
+  color: #7d7d7d;
+  transition: color 250ms ease-out;
+
+  &:hover {
+    color: #000;
+  }
+}
